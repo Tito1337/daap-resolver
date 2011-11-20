@@ -1,29 +1,26 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import hmac, hashlib, time
-import urllib, urllib2
-from xml.dom import minidom
-from struct import unpack, pack
 import sys
 import re
-import base64
 import simplejson as json
 from daap import DAAPClient
 import logging
 
+###################################################################### config
+DAAP_HOST = "10.0.73.1"
+DAAP_PORT = "3689"
+
 ###################################################################### logger
+# TODO : disable this when fully tested
 logger = logging.getLogger('daap-resolver')
 hdlr = logging.FileHandler('.daap-resolver.log')
 formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
 hdlr.setFormatter(formatter)
 logger.addHandler(hdlr)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 logger.info('Started')
 
-###################################################################### config
-DAAP_HOST = "10.0.73.1"
-DAAP_PORT = "3689"
 
 ###################################################################### resolver
 class DAAPresolver:
@@ -44,6 +41,7 @@ class DAAPresolver:
         logger.info("Got %s tracks"%len(self.tracks))
         
     def fulltext(self, search):
+        #TODO : more effective search maybe?
         words = search.split()
         pattern = '(%s)'%('|'.join(words))
         founds = []
@@ -63,7 +61,7 @@ class DAAPresolver:
         return founds
         
     def artistandtrack(self, artist, track):
-        #TODO : wow, that's a hacky search
+        #TODO : more effective search maybe?
         founds = []
         logger.info('Searching %s - %s in %d tracks'%(artist, track, len(self.tracks)))
         for t in self.tracks:
@@ -81,8 +79,6 @@ class DAAPresolver:
         return founds
 
 
-    
-
 ###################################################################### functions
 def print_json(o):
     s = json.dumps(o)
@@ -99,10 +95,8 @@ settings["weight"] = 98 # mp3tunes results should be chosen just under the local
 print_json( settings )
 
 
-###################################################################### connect
+##################################################################### main
 resolver = DAAPresolver(DAAP_HOST, DAAP_PORT)
-
-##################################################################### main loop
 while 1:
     length = sys.stdin.read(4)
     length = unpack('!L', length)[0]
