@@ -58,8 +58,8 @@ class DAAPresolver:
                 found["artist"] = t.artist
                 found["track"]  = t.name
                 found["album"]  = t.album
-                if isinstance(t.time, int)
-                    found["duration"] = int(t.time/1000):
+                if isinstance(t.time, int):
+                    found["duration"] = int(t.time/1000)
                 found["url"]    = 'http://%s:%s/databases/%d/items/%d.mp3?session-id=%s'%(self.host, self.port, self.database.id, t.id, self.session.sessionid)
                 found["score"] = 1
                 #found["source"] = 'DAAP'
@@ -77,8 +77,8 @@ class DAAPresolver:
                 found["artist"] = t.artist
                 found["track"]  = t.name
                 found["album"]  = t.album
-                if isinstance(t.time, int)
-                    found["duration"] = int(t.time/1000):
+                if isinstance(t.time, int):
+                    found["duration"] = int(t.time/1000)
                 found["url"]    = 'http://%s:%s/databases/%d/items/%d.mp3?session-id=%s'%(self.host, self.port, self.database.id, t.id, self.session.sessionid)
                 found["score"] = 1
                 #found["source"] = 'DAAP'
