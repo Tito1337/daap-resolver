@@ -1,7 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+#
+# Created by Christophe "Tito" De Wolf <tito@webtito.be> twitter.com/tito1337
+# Licensed under GPLv3 (http://www.gnu.org/licenses/gpl)
+######################################################################
+
 import sys
 import re
+from struct import unpack, pack
 import simplejson as json
 from daap import DAAPClient
 import logging
@@ -52,7 +58,8 @@ class DAAPresolver:
                 found["artist"] = t.artist
                 found["track"]  = t.name
                 found["album"]  = t.album
-                found["duration"] = t.time/1000
+                if isinstance(t.time, int)
+                    found["duration"] = int(t.time/1000):
                 found["url"]    = 'http://%s:%s/databases/%d/items/%d.mp3?session-id=%s'%(self.host, self.port, self.database.id, t.id, self.session.sessionid)
                 found["score"] = 1
                 #found["source"] = 'DAAP'
@@ -70,7 +77,8 @@ class DAAPresolver:
                 found["artist"] = t.artist
                 found["track"]  = t.name
                 found["album"]  = t.album
-                found["duration"] = t.time/1000
+                if isinstance(t.time, int)
+                    found["duration"] = int(t.time/1000):
                 found["url"]    = 'http://%s:%s/databases/%d/items/%d.mp3?session-id=%s'%(self.host, self.port, self.database.id, t.id, self.session.sessionid)
                 found["score"] = 1
                 #found["source"] = 'DAAP'
