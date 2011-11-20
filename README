@@ -1,0 +1,9 @@
+This is a Python resolver for Playdar/Tomahawk music players. Uncompress 
+it somewhere then add "daap-resolver.py" as new resolver.
+
+Tested with Python 2.7.2 and a mt-daap server. Not sure it will work 
+with an Apple iTunes server.
+
+All depedencies included (or at least I hope so)
+
+This is my first resolver for Playdar/Tomahawk, feedback very welcomed!
