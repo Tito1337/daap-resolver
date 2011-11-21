@@ -9,7 +9,8 @@
 #
 
 import httplib, struct, sys
-import md5, md5daap
+import md5
+from md5daap import md5daap
 import gzip
 import logging
 from cStringIO import StringIO
@@ -52,33 +53,34 @@ for i in (range(255)):
 # libopendaap http://crazney.net/programs/itunes/authentication.html
 seed_v3 = []
 for i in (range(255)):
-    ctx = md5daap.new()
+    ctx = []
 
-    if (i & 0x40): ctx.update("eqwsdxcqwesdc")
-    else:          ctx.update("op[;lm,piojkmn")
+    if (i & 0x40): ctx.append("eqwsdxcqwesdc")
+    else:          ctx.append("op[;lm,piojkmn")
 
-    if (i & 0x20): ctx.update("876trfvb 34rtgbvc")
-    else:          ctx.update("=-0ol.,m3ewrdfv")
+    if (i & 0x20): ctx.append("876trfvb 34rtgbvc")
+    else:          ctx.append("=-0ol.,m3ewrdfv")
 
-    if (i & 0x10): ctx.update("87654323e4rgbv ")
-    else:          ctx.update("1535753690868867974342659792")
+    if (i & 0x10): ctx.append("87654323e4rgbv ")
+    else:          ctx.append("1535753690868867974342659792")
 
-    if (i & 0x08): ctx.update("Song Name")
-    else:          ctx.update("DAAP-CLIENT-ID:")
+    if (i & 0x08): ctx.append("Song Name")
+    else:          ctx.append("DAAP-CLIENT-ID:")
 
-    if (i & 0x04): ctx.update("111222333444555")
-    else:          ctx.update("4089961010")
+    if (i & 0x04): ctx.append("111222333444555")
+    else:          ctx.append("4089961010")
 
-    if (i & 0x02): ctx.update("playlist-item-spec")
-    else:          ctx.update("revision-number")
+    if (i & 0x02): ctx.append("playlist-item-spec")
+    else:          ctx.append("revision-number")
 
-    if (i & 0x01): ctx.update("session-id")
-    else:          ctx.update("content-codes")
+    if (i & 0x01): ctx.append("session-id")
+    else:          ctx.append("content-codes")
 
-    if (i & 0x80): ctx.update("IUYHGFDCXWEDFGHN")
-    else:          ctx.update("iuytgfdxwerfghjm")
+    if (i & 0x80): ctx.append("IUYHGFDCXWEDFGHN")
+    else:          ctx.append("iuytgfdxwerfghjm")
 
-    seed_v3.append( ctx.hexdigest().upper() )
+    chksum = ''.join(ctx)
+    seed_v3.append( md5daap(chksum).hexdigest().upper() )
 
 def hash_v2(url, select):
     ctx = md5.new()
@@ -88,12 +90,12 @@ def hash_v2(url, select):
     return ctx.hexdigest().upper()
 
 def hash_v3(url, select, sequence = 0):
-    ctx = md5daap.new()
-    ctx.update( url )
-    ctx.update( "Copyright 2003 Apple Computer, Inc." )
-    ctx.update( seed_v3[ select ])
-    if sequence > 0: ctx.update( str(sequence) )
-    return ctx.hexdigest().upper()
+    ctx = []
+    ctx.append( url )
+    ctx.append( "Copyright 2003 Apple Computer, Inc." )
+    ctx.append( seed_v3[ select ])
+    if sequence > 0: ctx.append( str(sequence) )
+    return md5daap(''.join(ctx)).hexdigest().upper()
 
 
 
