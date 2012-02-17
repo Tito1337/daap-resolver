@@ -381,6 +381,7 @@ class DAAPClient(object):
         headers = {
             'Client-DAAP-Version': '3.0',
             'Client-DAAP-Access-Index': '2',
+            'User-Agent':'Tomahawk',
         }
 
         if gzip: headers['Accept-encoding'] = 'gzip'
